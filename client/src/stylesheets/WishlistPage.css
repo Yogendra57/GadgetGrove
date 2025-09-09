@@ -1,0 +1,35 @@
+/* src/index.css */
+
+/* --- Product Card Styling --- */
+
+/* 1. Container for the image */
+.product-card-image-container {
+  overflow: hidden; /* This is crucial to contain the zoomed image */
+  position: relative;
+  background-color: #f0f0f0; /* Background color for image loading */
+}
+
+/* 2. The image itself */
+.product-card-image-container .card-img-top {
+  transition: transform 0.35s ease-in-out; /* Smooth animation effect */
+  height: 200px; /* Fixed height for uniform card appearance */
+  object-fit: cover; /* Ensures image covers the area without distortion */
+}
+
+/* 3. The hover effect: scale the image when hovering over the card */
+.product-card:hover .product-card-image-container .card-img-top {
+  transform: scale(1.1); /* Zoom level */
+}
+
+/* 4. Optional: Overlay for out-of-stock items */
+.out-of-stock-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}

@@ -1,0 +1,32 @@
+/* src/stylesheets/AdminSidebar.css */
+
+.admin-sidebar-container {
+    background-color: #212529; /* Bootstrap dark background color */
+}
+
+.sidebar-link {
+    color: rgba(255, 255, 255, 0.7); /* Light grey text color for links */
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sidebar-link.active {
+    background-color: var(--bs-primary); /* Use primary color for active link */
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar-link-bottom {
+    font-size: 0.9rem;
+}
+
+.sidebar-link-bottom.text-danger:hover {
+    color: #ff4d6d !important; /* Brighter red on hover */
+    background-color: rgba(255, 0, 0, 0.1);
+}

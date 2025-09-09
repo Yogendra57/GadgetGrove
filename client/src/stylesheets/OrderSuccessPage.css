@@ -1,0 +1,136 @@
+/* src/stylesheets/OrderSuccessPage.css */
+
+.order-success-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #e0f2f7, #ffffff); /* Light blue to white gradient */
+  display: flex; /* Ensures content is centered vertically */
+  flex-direction: column;
+}
+
+/* Center content on large screens */
+.order-success-page-wrapper > .row {
+  flex-grow: 1; /* Allows the content row to take up available space */
+}
+
+.order-success-card {
+  max-width: 800px;
+  width: 100%;
+  border-radius: 1.5rem; /* More rounded corners */
+  overflow: hidden; /* For any internal elements that might overflow */
+  background: #ffffff;
+}
+
+.icon-wrapper {
+  font-size: 5rem; /* Large icon */
+  color: var(--bs-success); /* Bootstrap success green */
+  margin-bottom: 1.5rem;
+  animation-duration: 0.8s; /* Shorter animation for icon */
+}
+
+.order-success-card .card-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  animation-duration: 0.7s;
+}
+
+.order-success-card .lead {
+  font-size: 1.15rem;
+  color: #555;
+  animation-duration: 0.9s;
+}
+
+.order-items-summary {
+  border-radius: 1rem;
+  border: 1px solid #e9ecef;
+  animation-duration: 1.2s;
+  background-color: #f8fafd; /* Slightly off-white background */
+}
+
+.order-items-summary .card-header {
+  background-color: #f1f7fc; /* Lighter header for items */
+  border-bottom: 1px solid #e9ecef;
+  font-size: 1.1rem;
+  color: #333;
+  padding: 1rem 1.5rem;
+}
+
+.item-thumbnail {
+  width: 60px; /* Adjust size as needed */
+  height: 60px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+}
+
+.order-items-summary .list-group-item {
+  padding: 1rem 1.5rem;
+}
+
+.order-items-summary .list-group-item:last-child {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.btn-hover-effect {
+  transition: all 0.3s ease;
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+  .order-success-card {
+    margin: 1rem;
+    border-radius: 1rem;
+    max-width: 95%;
+  }
+
+  .order-success-card .card-body {
+    padding: 1.5rem !important;
+  }
+
+  .icon-wrapper {
+    font-size: 4rem;
+  }
+
+  .order-success-card .card-title {
+    font-size: 2rem;
+  }
+
+  .order-success-card .lead {
+    font-size: 1rem;
+  }
+
+  .order-items-summary .card-header {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .order-items-summary .list-group-item {
+    padding: 0.75rem 1rem;
+  }
+
+  .item-thumbnail {
+    width: 45px;
+    height: 45px;
+  }
+
+  .order-success-page-wrapper .main-content-area {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  .d-grid.gap-3.d-md-block {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-hover-effect {
+    width: 100%;
+  }
+}

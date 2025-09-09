@@ -1,0 +1,79 @@
+/* src/stylesheets/ProductListPage.css */
+
+/* --- Modern Search Bar Styling --- */
+.search-bar-wrapper {
+  animation: formFadeIn 0.5s ease-out forwards;
+}
+
+.search-input {
+  border-radius: 50px !important; /* Fully rounded search bar */
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 3rem; /* Space for the icon inside */
+  border: 1px solid #dee2e6;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: #6c757d; /* Muted icon color */
+  z-index: 3;
+}
+
+/* --- Filter Dropdown Styling --- */
+.filter-group .filter-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.25rem;
+}
+
+.filter-group .form-select {
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* --- Mobile Filter Off-canvas --- */
+.filter-offcanvas {
+  height: auto; /* Adjust height based on content */
+  max-height: 70vh;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+/* Entrance animation for product cards */
+@keyframes formFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-fade-in {
+  animation: cardFadeInAnimation 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes cardFadeInAnimation {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (min-width: 1200px) {
+    .row-cols-xl-4>* {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+}
+
+
+
+
+
+
+

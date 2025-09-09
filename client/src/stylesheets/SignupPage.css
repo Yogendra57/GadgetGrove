@@ -1,0 +1,161 @@
+/* src/stylesheets/SignupPage.css */
+
+/* --- 1. Overall Wrapper & Background Media Container --- */
+.signup-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #1a202c; /* Fallback color if media fails */
+}
+
+.background-media-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.background-media-container img,
+.background-media-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6) blur(3px);
+  animation: bgZoom 20s infinite alternate;
+}
+
+@keyframes bgZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+/* --- 2. Form Container & Frosted Glass Effect --- */
+.signup-form-container {
+  position: relative;
+  z-index: 1;
+}
+
+.signup-card.frosted-glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.3);
+  overflow: hidden; /* Important for inner elements */
+}
+
+.animated-fade-in {
+  animation: cardFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 3. Form Inputs & Floating Labels --- */
+.signup-card .form-floating > .form-control {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.signup-card .form-floating > .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: none;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Custom Floating Label (with icons) */
+.custom-floating-label > label {
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+}
+.custom-floating-label > label .svg-inline--fa {
+  margin-right: 0.5rem;
+}
+
+/* --- Fix for Placeholder Overlap --- */
+/* 1. Hide placeholder text when input is not focused */
+.signup-card .form-floating > .form-control::placeholder {
+  color: transparent;
+}
+/* 2. Show placeholder text only when input is focused */
+.signup-card .form-floating > .form-control:focus::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.3s ease-in-out;
+}
+
+/* 3. Styling for the label when it floats up */
+.signup-card .form-floating > .form-control:focus ~ label,
+.signup-card .form-floating > .form-control:not(:placeholder-shown) ~ label {
+  transform: scale(0.85) translateY(-0.7rem) translateX(0.25rem);
+  color: rgba(255, 255, 255, 0.9);
+  /* background-color: transparent; /* Ensure no background on label itself */
+}
+
+/* --- 4. Progress Bar & Step Indicator --- */
+.progress-bar-custom {
+  height: 8px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.progress-bar-custom .progress-bar {
+  background: linear-gradient(to right, #6a82fb, #fc5c7d);
+  transition: width 0.6s ease-in-out;
+  border-radius: 5px;
+}
+
+.current-step-indicator {
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-top: -5px;
+}
+
+/* --- 5. Button Styling --- */
+.signup-card .btn {
+  border-radius: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 0.8rem 1.5rem;
+  transition: all 0.3s ease;
+}
+.signup-card .btn-primary { background: linear-gradient(45deg, #007bff, #0056b3); border: none; }
+.signup-card .btn-primary:hover { background: linear-gradient(45deg, #0056b3, #007bff); box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4); }
+.signup-card .btn-success { background: linear-gradient(45deg, #28a745, #1e7e34); border: none; }
+.signup-card .btn-success:hover { background: linear-gradient(45deg, #1e7e34, #28a745); box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4); }
+.signup-card .btn-light { background-color: rgba(255, 255, 255, 0.9); color: #333; border: none; }
+.signup-card .btn-light:hover { background-color: white; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3); }
+
+/* --- 6. Step Animation --- */
+.form-step-animation {
+  animation: formStepFadeIn 0.7s ease-out forwards;
+}
+
+@keyframes formStepFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.success-icon {
+  animation: checkmarkPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  margin-bottom: 2rem !important;
+  filter: drop-shadow(0 5px 15px rgba(40, 167, 69, 0.6));
+}
+
+@keyframes checkmarkPop {
+  0% { transform: scale(0.5) rotate(-30deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); }
+}

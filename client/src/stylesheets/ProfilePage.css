@@ -1,0 +1,73 @@
+/* --- Profile Page Styling --- */
+
+.profile-header {
+  position: relative;
+  /* Space below the header before content starts, adjusted for profile pic overlap */
+  margin-bottom: 5rem; 
+}
+
+.profile-cover-image {
+  height: 250px; /* Adjust height as needed */
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.profile-picture-container {
+  position: absolute;
+  bottom: -4rem; /* Pulls picture down to overlap. Adjust based on picture size */
+  left: 2rem;
+  border: 5px solid white;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture {
+  width: 150px; /* Must match container dimensions for circular shape */
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Styling for the small circular upload buttons */
+.upload-button {
+  position: absolute;
+  z-index: 10;
+  border-radius: 50%;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.upload-button:hover {
+  opacity: 1;
+}
+
+/* Position for cover image upload button */
+.profile-header .upload-button {
+  bottom: 10px;
+  right: 10px;
+}
+
+/* Position for profile picture upload button */
+.profile-picture-container .upload-button {
+  bottom: 0px;
+  right: 0px;
+}
+
+/* --- Animation Code --- */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(15px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.fade-in-card {
+  animation: fadeIn 0.6s ease-out forwards;
+}

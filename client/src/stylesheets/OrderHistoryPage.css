@@ -1,0 +1,84 @@
+/* src/stylesheets/OrderHistoryPage.css */
+
+/* --- Order Card Styling --- */
+.order-history-card {
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #e9ecef;
+}
+
+.order-history-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+  border-color: var(--bs-primary);
+}
+
+.order-item-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+.order-card-actions {
+  border-left: none;
+}
+
+@media (min-width: 768px) {
+  .order-card-actions {
+    border-left: 1px solid #e9ecef;
+    padding-left: 1.5rem;
+  }
+}
+
+/* --- Skeleton Loader Styling --- */
+.skeleton-card {
+  border: 1px solid #e9ecef;
+  background-color: #ffffff;
+}
+
+.skeleton-line {
+  background-color: #eef1f5;
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite ease-in-out;
+  height: 16px; /* Default height */
+}
+
+.skeleton-thumbnail {
+  width: 60px;
+  height: 60px;
+  background-color: #eef1f5;
+  border-radius: 0.375rem;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% {
+    background-color: #eef1f5;
+  }
+  50% {
+    background-color: #e0e6ed;
+  }
+  100% {
+    background-color: #eef1f5;
+  }
+}
+
+/* Page entrance animation */
+.page-title-animation {
+  animation: fadeInDownSlight 0.6s ease-out forwards;
+}
+
+@keyframes fadeInDownSlight {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate__animated.animate__fadeInUp {
+  animation-duration: 0.6s;
+}

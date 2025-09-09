@@ -1,0 +1,75 @@
+.product-image {
+            max-height: 400px;
+            object-fit: cover;
+        }
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        .thumbnail:hover, .thumbnail.active {
+            opacity: 1;
+        }
+
+        /* src/stylesheets/Product.css */
+
+/* Product Image Styling */
+.product-image-main {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  border: 1px solid #eee;
+}
+
+.thumbnail-container {
+  display: flex;
+  gap: 10px;
+}
+
+.thumbnail {
+  width: 23%;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.thumbnail.active {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Quantity Input */
+.quantity-input {
+  max-width: 100px;
+}
+
+/* Review Section Styling */
+@media (min-width: 992px) {
+  .border-start-lg {
+    border-left: 1px solid #dee2e6 !important;
+  }
+}
+
+.review-card {
+  transition: box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.review-image {
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
+}

@@ -1,0 +1,76 @@
+/* src/stylesheets/OrderDetailsPage.css */
+
+/* --- Page Entrance Animation --- */
+.page-title-animation {
+  animation: fadeInDownSlight 0.6s ease-out forwards;
+}
+
+@keyframes fadeInDownSlight {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-step-animation { /* Reusing animation class name */
+  animation: formFadeIn 0.7s ease-out forwards;
+}
+
+@keyframes formFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Card Styling --- */
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.card {
+  border-radius: 0.75rem; /* Softer edges */
+  border: none;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* --- Order Item List Styling --- */
+.list-group-item {
+  transition: background-color 0.2s ease-in-out;
+}
+.list-group-item:hover {
+  background-color: #fcfdff;
+}
+
+address {
+  line-height: 1.6;
+  font-style: normal;
+}
+
+/* --- Skeleton Loader Styling --- */
+.skeleton-card {
+  border: 1px solid #e9ecef;
+  background-color: #ffffff;
+}
+
+.skeleton-line {
+  background-color: #eef1f5;
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite ease-in-out;
+  height: 16px; /* Default height */
+}
+
+.skeleton-thumbnail {
+  width: 60px;
+  height: 60px;
+  background-color: #eef1f5;
+  border-radius: 0.375rem;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% { background-color: #eef1f5; }
+  50% { background-color: #e0e6ed; }
+  100% { background-color: #eef1f5; }
+}

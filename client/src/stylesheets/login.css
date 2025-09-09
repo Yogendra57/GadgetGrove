@@ -1,0 +1,27 @@
+.imgdiv{
+    background-image: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.4)) ,url('/1.jpg');
+    border-radius: 30px;
+    background-size: cover;
+    background-position: center;
+}
+.custom-border {
+  border: 2px solid rgb(230, 224, 224);
+  border-radius: 4px;
+  padding:3px;
+  border-radius: 30px;
+}
+.loginbox {
+ font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+ font-weight: 600;
+ font-size: 1.2rem;
+}
+.maindivlogin{
+    border: 2px solid rgb(230, 224, 224);
+    border-radius: 30px;    
+    background-image: linear-gradient(to right, rgb(221 177 177 / 90%), rgb(104 74 193 / 70%));
+    box-shadow: 0 5px 52px 15px rgb(96 105 20 / 70%);}
+.logininp:focus{
+    outline: none;
+    box-shadow: none;
+    font-size: large;
+}

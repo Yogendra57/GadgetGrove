@@ -1,0 +1,323 @@
+/* src/stylesheets/HomePage.css */
+
+/* --- General & Body Styles --- */
+body {
+  font-family: 'Poppins', sans-serif; /* Example font */
+  overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+
+.home-page-wrapper {
+  background-color: #f8f9fa; /* Light background for sections */
+}
+
+/* --- Section Titles --- */
+.section-title {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  color: #343a40; /* Darker color for section titles */
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: #007bff; /* Primary color underline */
+  border-radius: 2px;
+}
+
+/* --- 1. Hero Section --- */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  color: white; /* Ensure text is visible on dark background */
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-background video,
+.hero-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) blur(2px); /* Darken and blur the background */
+  animation: heroBgZoom 20s infinite alternate; /* Subtle zoom */
+}
+
+@keyframes heroBgZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.hero-cta-btn {
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 0.8rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.hero-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 123, 255, 0.4);
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* --- Animations for Hero Content --- */
+.animated-fade-in-up {
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0; /* Start invisible */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- 2. Product Carousel --- */
+.product-carousel-section {
+  background-color: #f8f9fa;
+  padding: 80px 0;
+}
+
+.custom-product-carousel .carousel-control-prev-icon,
+.custom-product-carousel .carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  padding: 15px;
+  width: 40px; /* Adjust size */
+  height: 40px; /* Adjust size */
+}
+.custom-product-carousel .carousel-control-prev,
+.custom-product-carousel .carousel-control-next {
+    width: 5%; /* Make controls narrower */
+}
+
+
+.product-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  height: 100%; /* Ensure cards are same height */
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* --- MODIFICATION FOR FULL IMAGE --- */
+.product-card .card-img-top {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  height: 220px; /* Container height */
+  object-fit: contain; /* Ensures full image visibility, preserves aspect ratio */
+  background-color: #ffffff; /* Fills empty space if aspect ratios differ */
+  padding: 10px; /* Optional: adds internal padding around the image */
+}
+/* --- END MODIFICATION --- */
+
+.product-card .card-body {
+  padding: 1.5rem;
+}
+
+.product-card .card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-card .card-text {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.product-card .text-warning svg {
+  color: gold;
+}
+.product-card .half-star {
+    clip-path: inset(0 50% 0 0); /* Show only half of the star */
+}
+
+.add-to-cart-btn {
+  background-color: #28a745;
+  border-color: #28a745;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+/* --- 3. Account Benefits Section --- */
+.account-benefits-section {
+  background: linear-gradient(45deg, #007bff, #6a82fb); /* Gradient background */
+  padding: 100px 0;
+  box-shadow: inset 0 5px 15px rgba(0,0,0,0.2); /* Inner shadow */
+}
+
+.account-benefits-section h2,
+.account-benefits-section p {
+  color: white;
+}
+
+.signup-cta-btn {
+  background-color: #17a2b8; /* Info button color */
+  border-color: #17a2b8;
+  padding: 0.8rem 3rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.signup-cta-btn:hover {
+  background-color: #138496;
+  border-color: #117a8b;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(23, 162, 184, 0.4);
+}
+
+/* --- 4. Services/Features Section --- */
+.services-section {
+  background-color: #ffffff;
+  padding: 80px 0;
+}
+
+.service-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  height: 100%;
+  padding: 1.5rem;
+  background-color: #fcfcfc;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+}
+
+.service-icon-animate {
+  color: #007bff;
+  transition: transform 0.3s ease-in-out;
+}
+
+.service-card:hover .service-icon-animate {
+  transform: scale(1.1) rotate(5deg);
+}
+
+
+/* --- 5. About Us Section --- */
+.about-us-section {
+  background: linear-gradient(135deg, #2c3e50, #4ca1af); /* Dark blue-green gradient */
+  padding: 80px 0;
+  color: white;
+}
+
+.about-us-section img {
+    max-height: 400px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.learn-more-btn {
+  border-color: white;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.learn-more-btn:hover {
+  background-color: white;
+  color: #2c3e50;
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255,255,255,0.2);
+}
+
+/* --- 6. Footer (Minimal adjustments for general aesthetics) --- */
+footer {
+  background-color: #212529; /* Darker footer */
+  color: #adb5bd;
+}
+
+footer a {
+  color: #adb5bd;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) { /* Medium devices and down */
+  .hero-content {
+    padding: 1rem;
+  }
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  .hero-content p {
+    font-size: 1rem;
+  }
+  .product-carousel-section .col-md-4 {
+    flex: 0 0 50%; /* Show 2 items per row on medium */
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 767px) { /* Small devices and down */
+  .hero-section {
+    height: 70vh; /* Shorter hero on mobile */
+  }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+  .hero-cta-btn {
+    padding: 0.6rem 1.8rem;
+    font-size: 1rem;
+  }
+  .product-carousel-section .col-md-4 {
+    flex: 0 0 100%; /* Show 1 item per row on small */
+    max-width: 100%;
+  }
+  .section-title {
+    font-size: 1.8rem;
+  }
+  .about-us-section img {
+    max-height: 300px;
+  }
+}

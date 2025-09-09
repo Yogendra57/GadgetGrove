@@ -1,0 +1,78 @@
+/* src/stylesheets/CartPage.css */
+
+/* --- Page Title Animation --- */
+.page-title-animation {
+  animation: slideInFromLeft 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Cart Summary Bar Styling --- */
+.cart-summary-bar {
+  background-color: #ffffff;
+  animation: fadeIn-grow 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  transform-origin: top center;
+}
+
+@keyframes fadeIn-grow {
+  from {
+    opacity: 0;
+    transform: scaleY(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.summary-item .summary-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.summary-item .summary-value {
+  line-height: 1.2;
+}
+
+/* --- Checkout Button Styling --- */
+.checkout-button {
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.checkout-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* --- Card Entrance Animation --- */
+.card-fade-in {
+  animation: cardFadeInAnimation 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Stagger animation for each card */
+@for $i from 1 through 20 {
+  .card-fade-in:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.05}s;
+  }
+}
+
+@keyframes cardFadeInAnimation {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

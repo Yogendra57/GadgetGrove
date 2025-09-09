@@ -1,0 +1,53 @@
+/* --- Skeleton Loader Styling --- */
+.skeleton-card {
+  background-color: #ffffff;
+  overflow: hidden; /* Important for shimmer effect */
+}
+
+/* Base style for skeleton shapes */
+.skeleton-line {
+  background-color: #eef1f5; /* Light grey placeholder color */
+  border-radius: 4px;
+  animation: shimmer 1.8s infinite ease-in-out;
+  background-image: linear-gradient(90deg, #eef1f5 0px, #e0e6ed 40px, #eef1f5 80px);
+  background-size: 600px;
+  height: 16px; /* Default height for text lines */
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -300px 0; /* Start shimmer off-screen to the left */
+  }
+  100% {
+    background-position: 300px 0; /* End shimmer off-screen to the right */
+  }
+}
+
+/* --- Card Animation and Hover Effects --- */
+
+/* Entrance animation for loaded cards */
+.fade-in-card {
+  animation: fadeInCard 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effect for action buttons */
+.action-btn-hover {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.action-btn-hover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
