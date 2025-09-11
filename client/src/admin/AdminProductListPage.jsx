@@ -13,8 +13,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
-import AdminSidebar from "./AdminSideBar";
-import BottomNavbar from "/Users/yug/Desktop/ecommerce/client/src/components/BottomNavbar.jsx"; // Reusing existing components
+import AdminSidebar from "./AdminSidebar";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import "../stylesheets/ResponsiveNavbar.css"; // Responsive layout styles
 import "./stylesheets/AdminPage.css"; // Custom admin styles
@@ -28,7 +27,7 @@ const AdminProductListPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token"); // Ensure token is retrieved for API calls
-  console.log(BACKEND_URL);
+  
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -37,7 +36,9 @@ const AdminProductListPage = () => {
     try {
       setLoading(true);
       // Fetches all products. No token needed if route is public, add header if protected.
-      const res = await api.get("/products");
+      const res = await api.get("/products",{
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setProducts(res.data.products);
     } catch (err) {
       toast.error("Failed to fetch products.");

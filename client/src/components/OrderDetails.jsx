@@ -3,7 +3,6 @@ import { Card, Button, Form, Row, Col, Image } from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const BACKEND_URL=import.meta.env.VITE_BACKEND_URL
-// AddressCard stays same
 const AddressCard = ({ address, isSelected, onSelect }) => (
   
   <Card

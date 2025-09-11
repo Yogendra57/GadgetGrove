@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
-import "../stylesheets/SignupPage.css"; // Import CSS for styling
+import "../stylesheets/SignupPage.css"; 
 import { FaUserAlt, FaLock, FaEnvelope, FaKey, FaCheckCircle, FaChevronLeft } from "react-icons/fa";
 import { toast } from "react-toastify";
 

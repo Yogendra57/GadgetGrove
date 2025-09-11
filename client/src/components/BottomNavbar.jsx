@@ -1,8 +1,8 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
-import { FaHome, FaUser, FaBoxOpen, FaHeart, FaCartPlus, FaLocationArrow, FaDoorClosed } from 'react-icons/fa';
+import { FaHome, FaUser, FaBoxOpen, FaHeart, FaCartPlus, FaLocationArrow, FaDoorClosed, FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
-import '../stylesheets/ResponsiveNavbar.css'; // We will create this CSS file
+import '../stylesheets/ResponsiveNavbar.css'; 
 
 const BottomNavbar = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const BottomNavbar = () => {
     { path: '/cart', icon: <FaCartPlus size={20} />, label: 'Cart' },
     { path: '/saved-addresses', icon: <FaLocationArrow size={20} />, label: 'Addresses' },
     { path: '/profile', icon: <FaUser size={20} />, label: 'Profile' },
-    { path: '/logout', icon: <FaDoorClosed size={20} />, label: 'Logout' }
+    { path: '/logout', icon: <FaSignOutAlt size={20} />, label: 'Logout' }
   ];
 
   return (

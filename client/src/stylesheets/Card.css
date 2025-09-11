@@ -1,7 +1,9 @@
 .product-card {
+    position: relative;
     transition: all 0.3s ease;
     overflow: hidden;
     cursor: pointer;
+
 }
 
 .product-card:hover {
@@ -17,10 +19,11 @@
     transform: scale(1.05);
 }
 
-.badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.product-card .badge {
+    position: absolute; /* position: absolute is needed for top/right to work */
+    top: 15px;
+    right: 15px;
+    z-index: 3;
 }
 
 .price {
@@ -38,4 +41,33 @@
 .btn-custom:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+/* src/stylesheets/Card.css */
+
+.product-description {
+  /* --- This is the line-clamping magic --- */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* The number of lines to show */
+  -webkit-box-orient: vertical;
+  /* --- End of line-clamping --- */
+
+  /* Optional: Set a minimum height to ensure consistent card layout */
+  /* This value is roughly 4 lines of text. Adjust if needed. */
+   text-align: justify;
+}
+.out-of-stock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+/* Match your image container height */
+  /* ... your other overlay styles ... */
+  z-index: 2; /* Lifts the overlay up */
+}
+
+/* 4. Keep the image container at a lower z-index */
+.product-card .overflow-hidden {
+  position: relative; /* An element needs to be positioned to obey z-index */
+  z-index: 1; /* Keeps the image below the badges/overlays */
 }

@@ -4,12 +4,12 @@ import React, { useState, useMemo } from "react";
 import { Container, Row, Col, Form, Button, FloatingLabel, Alert, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
-import "../stylesheets/SignupPage.css"; // Reuse existing modern styles
-import { FaEnvelope, FaKey, FaCheckCircle, FaChevronLeft, FaLock } from "react-icons/fa"; // FaLock is now correctly imported
+import "../stylesheets/SignupPage.css"; 
+import { FaEnvelope, FaKey, FaCheckCircle, FaChevronLeft, FaLock } from "react-icons/fa"; 
 import { toast } from "react-toastify";
 
 const ForgotPasswordPage = () => {
-  const [step, setStep] = useState(1); // 1: Enter email, 2: Enter OTP and new password, 3: Success
+  const [step, setStep] = useState(1); 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -86,7 +86,7 @@ const ForgotPasswordPage = () => {
           loop 
           muted 
           playsInline 
-          src="/forgotvedio2.mp4" /* Example: /public/background-video.mp4 */
+          src="/forgotvedio2.mp4" 
         ></video>
       </div>
 

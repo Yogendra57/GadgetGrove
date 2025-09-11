@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import { Container, Row, Col, Form, Button, FloatingLabel, ProgressBar, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
-import "../stylesheets/Register.css"; // Using the enhanced CSS file
+import "../stylesheets/Register.css"; 
 import { FaArrowRight, FaArrowLeft, FaUserCheck, FaTruckLoading, FaShieldAlt } from "react-icons/fa";
 
 const Register = () => {

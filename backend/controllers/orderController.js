@@ -1,6 +1,6 @@
 const Address = require('../models/Address');
 const Order = require('../models/Order');
-
+const Product = require('../models/Product');
 
 const getOrderById = async (req, res) => {
     try {
@@ -51,6 +51,21 @@ const updateOrderToDelivered = async (req, res) => {
         const order = await Order.findById(req.params.id);
 
         if (order) {
+
+            // Check if the order is already delivered to prevent updating stock multiple times
+            if (order.isDelivered) {
+                return res.status(400).json({ message: 'Order is already marked as delivered.' });
+            }
+
+            // Loop through each item in the order to update stock levels
+            for (const item of order.orderItems) {
+                const product = await Product.findById(item.product);
+                if (product) {
+                    // Decrement the stock count by the quantity purchased in the order
+                    product.countInStock -= item.quantity;
+                    await product.save();
+                }
+            }
             order.isDelivered = true;
             order.deliveredAt = Date.now();
             const updatedOrder = await order.save();

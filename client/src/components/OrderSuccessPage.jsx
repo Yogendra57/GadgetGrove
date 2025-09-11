@@ -5,9 +5,9 @@ import { Container, Row, Col, Card, ListGroup, Button, Image, Spinner, Alert } f
 import { useParams, Link } from 'react-router-dom';
 import { FaCheckCircle, FaShoppingBag, FaArrowLeft, FaEye } from 'react-icons/fa';
 import api from '../utils/api';
-import LeftSidebar from '../components/LeftSidebar'; // Assuming you have this
-import BottomNavbar from '../components/BottomNavbar'; // Assuming you have this
-import '../stylesheets/OrderSuccessPage.css'; // New CSS file for styling
+import LeftSidebar from '../components/LeftSidebar'; 
+import BottomNavbar from '../components/BottomNavbar'; 
+import '../stylesheets/OrderSuccessPage.css'; 
 import { toast } from 'react-toastify';
 
 export default function OrderSuccessPage() {

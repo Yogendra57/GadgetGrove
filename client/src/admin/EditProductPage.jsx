@@ -4,8 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card, Spinner, Alert, Image, FloatingLabel } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../utils/api';
-import AdminSidebar from './AdminSideBar';
-import BottomNavbar from '/Users/yug/Desktop/ecommerce/client/src/components/BottomNavbar.jsx'; // Reusing existing components
+import AdminSidebar from './AdminSidebar';
 import "../stylesheets/ResponsiveNavbar.css";
 import "./stylesheets/AdminPage.css"; // Reusing admin styles
 import AdminBottomNavbar from './AdminBottomNavbar';
@@ -38,7 +37,9 @@ export default function EditProductPage() {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const { data } = await api.get(`/products/${productId}`);
+        const { data } = await api.get(`/products/${productId}`,{
+          headers: { Authorization: `Bearer ${token}` }
+        });
         const product = data.product;
         // Pre-fill form state with existing data
         setFormData({

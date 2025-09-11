@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import Product from './Product';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap'; // Import layout components
-import LeftSidebar from './LeftSidebar'; // Import desktop sidebar
-import BottomNavbar from './BottomNavbar'; // Import mobile bottom navbar
-import "../stylesheets/ResponsiveNavbar.css"; // Import responsive CSS
+import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap'; 
+import LeftSidebar from './LeftSidebar'; 
+import BottomNavbar from './BottomNavbar'; 
+import "../stylesheets/ResponsiveNavbar.css"; 
 import { toast } from 'react-toastify';
 
 const ProductDisplay = () => {

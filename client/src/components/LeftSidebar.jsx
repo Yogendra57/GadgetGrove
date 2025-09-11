@@ -18,7 +18,7 @@ const NavItem = ({ icon, text, active, onClick }) => (
 
 export default function LeftSidebar() {
   const navigate = useNavigate();
-  const location = useLocation(); // gives current URL path
+  const location = useLocation(); 
 
   return (
     <div className="p-3">

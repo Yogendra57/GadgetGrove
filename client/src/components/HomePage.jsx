@@ -23,8 +23,8 @@ import {
   FaTwitter,
   FaInstagram,
 } from "react-icons/fa";
-import "../stylesheets/HomePage.css"; // New CSS file for Home Page styling
-import api from "../utils/api"; // Your API utility
+import "../stylesheets/HomePage.css"; 
+import api from "../utils/api"; 
 import { toast } from "react-toastify";
 
 // --- Static Data for Services Section ---
@@ -115,6 +115,30 @@ const HomePage = () => {
     }
     return <div>{stars}</div>;
   };
+  const handleCardClick = (productId) => {
+  // Check if the auth token exists in local storage
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    // If token exists, user is logged in -> navigate to the product page
+    navigate(`/products/${productId}`);
+  } else {
+    // If no token, user is not logged in -> navigate to the login page
+    navigate('/login');
+  }
+};
+const handleExploreClick = () => {
+  // Check if the user is logged in
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    // If logged in, go to the products page
+    navigate('/products');
+  } else {
+    // If not logged in, go to the login page
+    navigate('/login');
+  }
+};
 
   // --- Render Function for Carousel Content ---
   const renderProductCarousel = () => {
@@ -154,13 +178,14 @@ const HomePage = () => {
                     key={product._id}
                     className="mb-4 d-flex align-items-stretch"
                   >
-                    <Card className="product-card">
+                    <Card className="product-card h-100"
+                    onClick={() => handleCardClick(product._id)}
+                        style={{ cursor: "pointer" }}>
                       <Card.Img
                         variant="top"
                         src={`${BACKEND_URL}/${product.image[0]}`}
                         alt={product.name}
-                        onClick={() => navigate(`/products/${product._id}`)}
-                        style={{ cursor: "pointer" }}
+                        
                       />
                       <Card.Body className="d-flex flex-column">
                         <Card.Title
@@ -170,7 +195,7 @@ const HomePage = () => {
                         >
                           {product.name}
                         </Card.Title>
-                        <Card.Text className="text-muted flex-grow-1 limited-text-description">
+                        <Card.Text className="text-muted flex-grow-1 limited-text-description product-description">
                           {product.description}
                         </Card.Text>
                         <div className="d-flex justify-content-between align-items-center mb-2">
@@ -218,11 +243,11 @@ const HomePage = () => {
           <p className="lead mb-4">
             Your one-stop shop for the latest and greatest tech gadgets.
           </p>
-          <Link to="/login">
-            <Button variant="primary" size="lg" className="hero-cta-btn">
+          
+            <Button variant="primary" size="lg" className="hero-cta-btn" onClick={handleExploreClick}>
               Explore Our Products
             </Button>
-          </Link>
+          
         </div>
       </section>
 

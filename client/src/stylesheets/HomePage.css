@@ -129,9 +129,10 @@ body {
   border-radius: 15px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  height: 100%; /* Ensure cards are same height */
+   /* Ensure cards are same height */
   display: flex;
   flex-direction: column;
+  
 }
 
 .product-card:hover {
@@ -320,4 +321,17 @@ footer a {
   .about-us-section img {
     max-height: 300px;
   }
+}
+.product-description {
+  /* --- This is the line-clamping magic --- */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* The number of lines to show */
+  -webkit-box-orient: vertical;
+  /* --- End of line-clamping --- */
+
+  /* Optional: Set a minimum height to ensure consistent card layout */
+  /* This value is roughly 4 lines of text. Adjust if needed. */
+   text-align: justify;
 }

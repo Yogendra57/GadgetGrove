@@ -22,7 +22,7 @@
   height: auto;
   max-height: 500px;
   object-fit: contain;
-  border: 1px solid #eee;
+  
 }
 
 .thumbnail-container {
@@ -73,3 +73,27 @@
   height: auto;
   border-radius: 4px;
 }
+/* src/stylesheets/Product.css */
+
+.main-image-container {
+  /* This creates a responsive square container */
+  aspect-ratio: 1 / 1; 
+
+  /* Flexbox properties to center the image inside the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  overflow: hidden; /* Hides any part of the image that might overflow */
+  background-color: #ffffff; /* Sets a clean background for the container */
+}
+
+.product-image-main {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Ensures the entire image is visible without being cropped */
+}
+
+/* ... your other existing styles for .thumbnail, etc. ... */

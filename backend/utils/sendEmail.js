@@ -11,7 +11,7 @@ const sendEmail=async(options)=>{
     }
 });
 const mailOptions={
-    from:`"Ecommerce Support" <${process.env.EMAIL}>`,
+    from:`"GadgetGrove Support Teams " <${process.env.EMAIL}>`,
     to:options.email,
     subject:options.subject,
     html:options.message

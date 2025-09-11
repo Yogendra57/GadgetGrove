@@ -10,167 +10,99 @@ import {
   Card,
   FloatingLabel,
   Alert,
+  Spinner // Import Spinner for a better loading state
 } from "react-bootstrap";
-import LeftSidebar from "./LeftSidebar";
-import { useParams, useNavigate } from "react-router-dom"; // Import hooks for routing
+import LeftSidebar from "../components/LeftSidebar"; // Corrected path
+import BottomNavbar from "../components/BottomNavbar"; // Import mobile bottom navbar
+import { useParams, useNavigate } from "react-router-dom"; 
 import api from "../utils/api";
 import { toast } from "react-toastify";
+import "../stylesheets/ResponsiveNavbar.css"; // Import responsive CSS
 
 // --- Data: List of Indian States and Union Territories ---
 const indianStates = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chhattisgarh",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "Odisha",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "West Bengal",
-  "Andaman and Nicobar Islands",
-  "Chandigarh",
-  "Dadra and Nagar Haveli and Daman and Diu",
-  "Delhi",
-  "Jammu and Kashmir",
-  "Ladakh",
-  "Lakshadweep",
-  "Puducherry",
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
+  "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
+  "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+  "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+  "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands",
+  "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi",
+  "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry",
 ];
 indianStates.sort();
 
 export default function EditAddressPage() {
   // --- State Initialization ---
-
-  const [formData, setFormData] = useState();
-  const [validated, setValidated] = useState(false);
-  const [formAlert, setFormAlert] = useState({
-    show: false,
-    message: "",
-    variant: "success",
+  const [formData, setFormData] = useState({
+    name: "", address: "", city: "", postalCode: "",
+    state: "", country: "India", phone: "",
   });
+  const [validated, setValidated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null); // Use a single error state
 
   // --- React Router Hooks ---
-  const { id } = useParams();
+  const { id: addressId } = useParams(); // Renamed 'id' to 'addressId' for clarity
   const navigate = useNavigate();
 
   // --- Data Fetching Effect ---
   useEffect(() => {
     const fetchAddressData = async () => {
       try {
-        setIsLoading(true);
         const token = localStorage.getItem("token");
-
-        const response = await api.get(`/addresses/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const { data } = await api.get(`/addresses/${addressId}`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-
-        setFormData({
-          name: response.data.address.name || "",
-          address: response.data.address.address || "",
-          city: response.data.address.city || "",
-          postalCode: response.data.address.postalCode || "",
-          state: response.data.address.state || "",
-          country: response.data.address.country || "India",
-          phone: response.data.address.phone || "",
-        });
-        toast.success("Address fetched successfully!");
-      } catch (error) {
-        toast.error("Failed to fetch address.");
-        console.error("Error fetching address:", error);
-        setFormAlert({
-          show: true,
-          message: error.response?.data?.message || error.message,
-          variant: "danger",
-        });
-        
+        setFormData(data.address);
+      } catch (err) {
+        toast.error("Failed to fetch address details.");
+        setError(err.response?.data?.message || "Could not load address.");
       } finally {
         setIsLoading(false);
       }
     };
+    if (addressId) {
+        fetchAddressData();
+    }
+  }, [addressId]);
 
-    fetchAddressData();
-  }, [id]);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-
     if (form.checkValidity() === false) {
       event.stopPropagation();
       setValidated(true);
       return;
     }
-
     setValidated(true);
 
     try {
       const token = localStorage.getItem("token");
-
-      const response = await api.put(`/addresses/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setFormAlert({
-        show: true,
-        message: response.data.message || "Address updated successfully!",
-        variant: "success",
+      await api.put(`/addresses/${addressId}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Address updated successfully!");
-
-      // Redirect after short delay
-      setTimeout(() => navigate("/saved-addresses"), 2000);
-    } catch (error) {
-      toast.error("Failed to update address.");
-      console.error("Error updating address:", error);
-      setFormAlert({
-        show: true,
-        message: error.response?.data?.message || error.message,
-        variant: "danger",
-      });
+      setTimeout(() => navigate("/saved-addresses"), 1500);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to update address.");
     }
   };
 
   return (
-    <Container fluid style={{ backgroundColor: "#f8f9fa" }}>
+    <Container fluid>
       <Row>
-        {/* 1. Left Sidebar Navigation */}
-        <Col md={2} className="bg-white vh-100 shadow-sm p-0 sticky-top">
+        {/* 1. Left Sidebar Navigation (Desktop Only) */}
+        <Col md={2} className="desktop-sidebar bg-white vh-100 shadow-sm p-0 sticky-top">
           <LeftSidebar />
         </Col>
 
         {/* 2. Main Content Area */}
-        <Col md={10} className="py-4 px-md-5">
+        <Col md={10} className="main-content-area py-4 px-md-5" style={{ backgroundColor: "#f8f9fa" }}>
           <Container>
             <Row className="justify-content-center">
               <Col md={8} lg={7}>
@@ -180,195 +112,66 @@ export default function EditAddressPage() {
                       Edit Delivery Address
                     </h2>
 
-                    {formAlert.show && (
-                      <Alert
-                        variant={formAlert.variant}
-                        onClose={() =>
-                          setFormAlert({ ...formAlert, show: false })
-                        }
-                        dismissible
-                      >
-                        {formAlert.message}
-                      </Alert>
-                    )}
+                    {error && <Alert variant="danger">{error}</Alert>}
 
                     {isLoading ? (
                       <div className="text-center p-5">
-                        Loading address data...
+                        <Spinner animation="border" variant="primary" />
+                        <p className="mt-2">Loading address data...</p>
                       </div>
                     ) : (
-                      <Form
-                        noValidate
-                        validated={validated}
-                        onSubmit={handleSubmit}
-                      >
-                        <Form.Group className="mb-3" controlId="formGridName">
-                          <FloatingLabel
-                            controlId="floatingName"
-                            label="Full Name"
-                          >
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter full name"
-                              name="name"
-                              value={formData.name}
-                              onChange={handleChange}
-                              required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                              Please enter your full name.
-                            </Form.Control.Feedback>
+                      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                        {/* Name Field */}
+                        <Form.Group className="mb-3">
+                          <FloatingLabel controlId="floatingName" label="Full Name">
+                            <Form.Control type="text" name="name" value={formData.name || ''} onChange={handleChange} required />
                           </FloatingLabel>
                         </Form.Group>
-                        {/* Street Address Field */}
-                        <Form.Group
-                          className="mb-3"
-                          controlId="formGridAddress"
-                        >
-                          <FloatingLabel
-                            controlId="floatingAddress"
-                            label="Street Address"
-                          >
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter street address"
-                              name="address"
-                              value={formData.address}
-                              onChange={handleChange}
-                              required
-                              style={{ minHeight: "60px" }}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                              Please provide a street address.
-                            </Form.Control.Feedback>
+                        {/* Street Address */}
+                        <Form.Group className="mb-3">
+                          <FloatingLabel controlId="floatingAddress" label="Street Address">
+                            <Form.Control type="text" name="address" value={formData.address || ''} onChange={handleChange} required style={{ minHeight: "60px" }} />
                           </FloatingLabel>
                         </Form.Group>
-
+                        {/* City & Postal Code */}
                         <Row className="mb-3">
-                          {/* City Field */}
-                          <Form.Group as={Col} md="6" controlId="formGridCity">
-                            <FloatingLabel
-                              controlId="floatingCity"
-                              label="City"
-                            >
-                              <Form.Control
-                                type="text"
-                                placeholder="Enter city"
-                                name="city"
-                                value={formData.city}
-                                onChange={handleChange}
-                                required
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                Please provide a valid city.
-                              </Form.Control.Feedback>
+                          <Form.Group as={Col} md={6}>
+                            <FloatingLabel controlId="floatingCity" label="City">
+                              <Form.Control type="text" name="city" value={formData.city || ''} onChange={handleChange} required />
                             </FloatingLabel>
                           </Form.Group>
-
-                          {/* Postal Code Field */}
-                          <Form.Group
-                            as={Col}
-                            md="6"
-                            controlId="formGridPostalCode"
-                          >
-                            <FloatingLabel
-                              controlId="floatingPostalCode"
-                              label="Postal Code"
-                            >
-                              <Form.Control
-                                type="text"
-                                placeholder="Enter postal code"
-                                name="postalCode"
-                                value={formData.postalCode}
-                                onChange={handleChange}
-                                required
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                Please provide a postal code.
-                              </Form.Control.Feedback>
+                          <Form.Group as={Col} md={6}>
+                            <FloatingLabel controlId="floatingPostalCode" label="Postal Code">
+                              <Form.Control type="text" name="postalCode" value={formData.postalCode || ''} onChange={handleChange} required pattern="\d{6}" />
                             </FloatingLabel>
                           </Form.Group>
                         </Row>
-
-                        <Row className="mb-4">
-                          {/* State Field */}
-                          <Form.Group as={Col} md="6" controlId="formGridState">
-                            <FloatingLabel
-                              controlId="floatingState"
-                              label="State"
-                            >
-                              <Form.Select
-                                name="state"
-                                value={formData.state}
-                                onChange={handleChange}
-                                required
-                              >
+                        {/* State & Country */}
+                        <Row className="mb-3">
+                          <Form.Group as={Col} md={6}>
+                            <FloatingLabel controlId="floatingState" label="State">
+                              <Form.Select name="state" value={formData.state || ''} onChange={handleChange} required>
                                 <option value="">Select State...</option>
-                                {indianStates.map((stateName) => (
-                                  <option key={stateName} value={stateName}>
-                                    {stateName}
-                                  </option>
-                                ))}
+                                {indianStates.map((stateName) => (<option key={stateName} value={stateName}>{stateName}</option>))}
                               </Form.Select>
-                              <Form.Control.Feedback type="invalid">
-                                Please select a state.
-                              </Form.Control.Feedback>
                             </FloatingLabel>
                           </Form.Group>
-
-                          {/* Country Field (Read-only) */}
-                          <Form.Group
-                            as={Col}
-                            md="6"
-                            controlId="formGridCountry"
-                          >
-                            <FloatingLabel
-                              controlId="floatingCountry"
-                              label="Country"
-                            >
-                              <Form.Control
-                                type="text"
-                                name="country"
-                                value={formData.country}
-                                readOnly
-                                style={{ backgroundColor: "#e9ecef" }}
-                              />
-                            </FloatingLabel>
-                          </Form.Group>
-                          <Form.Group
-                            className="mb-1 mt-3"
-                            controlId="formGridPhone"
-                          >
-                            <FloatingLabel
-                              controlId="floatingPhone"
-                              label="Phone Number"
-                            >
-                              <Form.Control
-                                type="tel"
-                                placeholder="Enter 10-digit phone number"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                required
-                                pattern="[6-9][0-9]{9}" // Validation for Indian mobile numbers (starts with 6, 7, 8, or 9)
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                Please enter a valid 10-digit mobile number.
-                              </Form.Control.Feedback>
+                          <Form.Group as={Col} md={6}>
+                            <FloatingLabel controlId="floatingCountry" label="Country">
+                              <Form.Control type="text" name="country" value={formData.country || ''} readOnly style={{ backgroundColor: "#e9ecef" }} />
                             </FloatingLabel>
                           </Form.Group>
                         </Row>
-
+                        {/* Phone Number */}
+                        <Form.Group className="mb-4">
+                            <FloatingLabel controlId="floatingPhone" label="Phone Number">
+                              <Form.Control type="tel" name="phone" value={formData.phone || ''} onChange={handleChange} required pattern="[6-9][0-9]{9}" />
+                            </FloatingLabel>
+                        </Form.Group>
+                        {/* Buttons */}
                         <div className="d-grid gap-2">
-                          <Button variant="primary" type="submit" size="lg">
-                            Update Address
-                          </Button>
-                          <Button
-                            variant="outline-secondary"
-                            onClick={() => navigate("/saved-addresses")}
-                          >
-                            Cancel
-                          </Button>
+                          <Button variant="primary" type="submit" size="lg">Update Address</Button>
+                          <Button variant="outline-secondary" onClick={() => navigate("/saved-addresses")}>Cancel</Button>
                         </div>
                       </Form>
                     )}
@@ -379,6 +182,9 @@ export default function EditAddressPage() {
           </Container>
         </Col>
       </Row>
+
+      {/* 3. Mobile Bottom Navigation Bar */}
+      <BottomNavbar />
     </Container>
   );
 }

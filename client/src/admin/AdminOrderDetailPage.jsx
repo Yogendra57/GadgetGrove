@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button, ListGroup, Image, Alert, Spinner, Badge } from "react-bootstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
-import AdminSidebar from "./AdminSideBar";
+import AdminSidebar from "./AdminSidebar";
 import AdminBottomNavbar from "./AdminBottomNavbar";
 import { FaUser, FaPhone, FaCreditCard, FaArrowLeft } from "react-icons/fa";
-import "../stylesheets/OrderDetailsPage.css"; // Make sure this CSS file exists
-import "../stylesheets/ResponsiveNavbar.css"; // Make sure this CSS file exists
+import "../stylesheets/OrderDetailsPage.css"; 
+import "../stylesheets/ResponsiveNavbar.css"; 
 import { toast } from "react-toastify";
 
 // --- Skeleton Loader Component ---
@@ -81,7 +81,7 @@ export default function AdminOrderDetailPage() {
                   <Row className="align-items-center">
                     <Col xs={3} md={2}>
                       <Image 
-                        src={`${BACKEND_URL}/${item.image}`} // Ensure full URL construction
+                        src={`${BACKEND_URL}/${item.image}`} 
                         alt={item.name} 
                         fluid 
                         rounded 

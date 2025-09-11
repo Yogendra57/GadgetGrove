@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Table, Spinner, Alert, Button, Badge } from 'react-bootstrap';
 import api from '../utils/api';
-import AdminSidebar from './AdminSideBar';
-import BottomNavbar from '/Users/yug/Desktop/ecommerce/client/src/components/BottomNavbar.jsx'; // Reusing existing components
+import AdminSidebar from './AdminSidebar';
 import { FaTrash, FaUserShield, FaUser } from 'react-icons/fa';
 import "../stylesheets/ResponsiveNavbar.css";
-import "./stylesheets/AdminPage.css"; // Reusing admin styles
+import "./stylesheets/AdminPage.css"; 
 import AdminBottomNavbar from './AdminBottomNavbar';
 import { toast } from 'react-toastify';
 

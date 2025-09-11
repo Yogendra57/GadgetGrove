@@ -4,10 +4,9 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Card, Spinner, Alert, Image, FloatingLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import AdminSidebar from './AdminSideBar';
-import BottomNavbar from '/Users/yug/Desktop/ecommerce/client/src/components/BottomNavbar.jsx'; // Assuming shared responsive layout
-import "../stylesheets/ResponsiveNavbar.css"; // Reusing responsive styles
-import "./stylesheets/AdminPage.css"; // Reusing admin styles
+import AdminSidebar from './AdminSidebar';
+import "../stylesheets/ResponsiveNavbar.css"; 
+import "./stylesheets/AdminPage.css"; 
 import AdminBottomNavbar from './AdminBottomNavbar';
 import { toast } from 'react-toastify';
 

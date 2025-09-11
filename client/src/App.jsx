@@ -33,6 +33,7 @@ import AdminCustomerPage from "./admin/AdminCustomerPage";
 import AdminOrderDetailPage from "./admin/AdminOrderDetailPage";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import LowStockProductsPage from "./admin/LowStockProductsPage";
 function App() {
   return (
     <>
@@ -79,6 +80,7 @@ function App() {
           <Route path='/admin/orders' element={<AdminOrderListPage/>}/>
           <Route path='/admin/customers' element={<AdminCustomerPage/>}/>
           <Route path='/admin/orders/:id' element={<AdminOrderDetailPage/>}/>
+          <Route path="/admin/low-stock" element={<LowStockProductsPage />} />
         </Routes>
       </BrowserRouter>
     </>

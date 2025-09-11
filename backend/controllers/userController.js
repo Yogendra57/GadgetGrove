@@ -83,12 +83,46 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     const emailSubject = "Password Reset OTP";
-    const emailText = `Your password reset OTP is: ${otp}. This code is valid for 10 minutes.`;
+    let emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <style>
+              body { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
+              .email-container { max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+              .header { background-color: #007bff; color: #ffffff; padding: 40px; text-align: center; }
+              .header h1 { margin: 0; font-size: 24px; }
+              .content { padding: 40px 30px; color: #333333; line-height: 1.6; text-align: center; }
+              .otp-code { font-size: 36px; font-weight: bold; letter-spacing: 5px; margin: 20px 0; padding: 15px; background-color: #f0f0f0; border-radius: 5px; display: inline-block; }
+              .security-note { font-size: 12px; color: #888888; margin-top: 30px; border-top: 1px solid #eeeeee; padding-top: 20px; }
+              .footer { background-color: #f4f4f4; padding: 20px; text-align: center; font-size: 12px; color: #888888; }
+          </style>
+      </head>
+      <body>
+          <div class="email-container">
+              <div class="header"><h1>Password Reset Code</h1></div>
+              <div class="content">
+                  <p>Hi [User Name],</p>
+                  <p>We received a request to reset your password. Please enter the One-Time Password (OTP) below on the reset page to continue. This code is valid for 10 minutes.</p>
+                  <div class="otp-code">[OTP Code]</div>
+                  <div class="security-note"><p>If you did not request a password reset, please ignore this email. For your security, never share this code with anyone.</p></div>
+              </div>
+              <div class="footer"><p>&copy; [Year] [Company Name]. All rights reserved.</p></div>
+          </div>
+      </body>
+      </html>
+    `;
+
+    // Replace placeholders with actual data
+    emailHtml = emailHtml.replace('[User Name]', user.name);
+    emailHtml = emailHtml.replace('[OTP Code]', otp);
+    emailHtml = emailHtml.replace('[Year]', new Date().getFullYear());
+    emailHtml = emailHtml.replace('[Company Name]', 'GadgetGrove');
 
     await sendEmail({
       email: user.email,
       subject: emailSubject,
-      message: emailText,
+      message: emailHtml,
     });
 
     res
@@ -162,7 +196,7 @@ const getUserDetails = async (req, res) => {
 };
 
 // For generating OTP
-// const sendEmail = require('../utils/sendEmail'); // Assumed email utility
+
 
 // --- 1. Register User and Send OTP ---
 const registerUser = async (req, res) => {
@@ -214,13 +248,53 @@ const registerUser = async (req, res) => {
     //   subject: 'Verify Your Account - MyStore',
     //   text: `Your OTP for account verification is: ${otp}. It will expire in 10 minutes.`
     // });
-    const emailSubject = "Verify Your Account - MyStore";
-    const emailText = `Your OTP for account verification is: ${otp}. It will expire in 10 minutes.`;
+    const emailSubject = "Verify Your Account - GadgetGrove";
+    let emailHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        .email-container { max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background-color: #28a745; color: #ffffff; padding: 40px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 40px 30px; color: #333333; line-height: 1.6; text-align: center; }
+        .otp-code { font-size: 36px; font-weight: bold; color: #333333; letter-spacing: 5px; margin: 20px 0; padding: 15px; background-color: #f0f0f0; border-radius: 5px; display: inline-block; }
+        .security-note { font-size: 12px; color: #888888; margin-top: 30px; border-top: 1px solid #eeeeee; padding-top: 20px; }
+        .footer { background-color: #f4f4f4; padding: 20px; text-align: center; font-size: 12px; color: #888888; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>Welcome to [Company Name]!</h1>
+        </div>
+        <div class="content">
+            <p>Hi [User Name],</p>
+            <p>Thank you for signing up. Please use the One-Time Password (OTP) below to verify your email address and complete your registration. This code is valid for 10 minutes.</p>
+            
+            <div class="otp-code">[OTP Code]</div>
+            
+            <div class="security-note">
+                <p>If you did not create an account, no further action is required. For your security, please do not share this code with anyone.</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; [Year] [Company Name]. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>`;
+emailHtml = emailHtml.replace(/\[User Name\]/g, name);
+    emailHtml = emailHtml.replace(/\[OTP Code\]/g, otp);
+    emailHtml = emailHtml.replace(/\[Year\]/g, new Date().getFullYear());
+    emailHtml = emailHtml.replace(/\[Company Name\]/g, 'GadgetGrove');
 
     await sendEmail({
       email: email,
       subject: emailSubject,
-      message: emailText,
+      message: emailHtml,
     });
 
     res
@@ -266,13 +340,139 @@ const verifyOtp = async (req, res) => {
     //   text: `Hi ${user.name}, welcome to MyStore! Your account is now active.`
     // });
 
-    const emailSubject = "Welcome to MyStore!";
-    const emailText = `Hi ${user.name}, welcome to MyStore! Your account is now active.`;
-
+    const emailSubject = "Welcome to GadgetGrove!";
+    let emailHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: #f4f7f6;
+        }
+        .email-wrapper {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #007bff;
+            padding: 40px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .content {
+            padding: 40px 30px;
+            color: #333333;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .content h1 {
+            color: #333333;
+            font-size: 28px;
+            margin-top: 0;
+        }
+        .content p {
+            font-size: 16px;
+            color: #555555;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 14px 30px;
+            margin: 30px 0;
+            background-color: #28a745;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .features {
+            margin-top: 30px;
+            text-align: left;
+            border-top: 1px solid #eeeeee;
+            padding-top: 20px;
+        }
+        .features h3 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        .features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .features li span {
+            font-size: 20px;
+            color: #28a745;
+            margin-right: 15px;
+        }
+        .footer {
+            background-color: #f4f7f6;
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+        }
+        .social-links a {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="content">
+            <h1>Welcome Aboard, [User Name]!</h1>
+            <p>We're thrilled to have you join the [Company Name] family. Your account is now active and you're all set to explore a world of amazing products.</p>
+            
+            <a href="[Shop Link]" class="cta-button">Start Shopping Now</a>
+            
+            <div class="features">
+                <h3>Here's what you can look forward to:</h3>
+                <ul>
+                    <li><span>✔</span> Exclusive deals and member-only offers.</li>
+                    <li><span>✔</span> A faster, seamless checkout experience.</li>
+                    <li><span>✔</span> Easy order tracking and history.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Follow us on social media!</p>
+            <div class="social-links">
+                <a href="[Instagram Link]"><img src="https://i.pinimg.com/736x/12/d7/52/12d752c2919daaf807d8b71f3dbed1a0.jpg" alt="Facebook" width="24"></a>
+                <a href="[Linkedin Link]"><img src="https://thumbs.dreamstime.com/b/linkedin-vector-circular-blue-icon-linkedin-vector-circular-blue-icon-social-media-icon-website-mobile-apps-183034665.jpg" alt="Twitter" width="24"></a>
+                <a href="[Email Link]"><img src="https://png.pngtree.com/template/20190725/ourmid/pngtree-gmail-logo-png-image_282635.jpg" alt="Instagram" width="24"></a>
+            </div>
+            <p class="mt-3">[Company Name] | [Company Address]</p>
+        </div>
+    </div>
+</body>
+</html>`;
+emailHtml = emailHtml.replace(/\[User Name\]/g, user.name);
+    emailHtml = emailHtml.replace(/\[Shop Link\]/g, process.env.FRONTEND_URL);
+    emailHtml=emailHtml.replace(/\[Company Name\]/g,'GadgetGrove');
+    emailHtml=emailHtml.replace(/\[Company Address\]/g,'15, Fatiyabad, Alwar, Rajasthan, India - 301712');
+    emailHtml=emailHtml.replace(/\[Instagram Link\]/g,'https://www.instagram.com/yugydv__/#');
+    emailHtml=emailHtml.replace(/\[Linkedin Link\]/g,'https://www.linkedin.com/in/yogendra57/');
+    emailHtml=emailHtml.replace(/\[Email Link\]/g,'mailto:yogendrayadavv57@gmail.com');
     await sendEmail({
       email: user.email,
       subject: emailSubject,
-      message: emailText,
+      message: emailHtml,
     });
     res
       .status(200)

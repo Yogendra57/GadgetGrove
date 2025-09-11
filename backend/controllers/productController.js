@@ -5,10 +5,6 @@ const{verifyToken}=require('../config/jwt');
 const{isAdmin}=require('../middleware/authMiddleware')
 // Get All Products: GET /api/products
 
-
-// ... other controller functions like createProduct, deleteProduct ...
-
-// UPDATED getProducts function
 const getProducts = async (req, res) => {
   try {
     const query = {};
@@ -180,12 +176,32 @@ const deleteProduct=async(req,res)=>{
 };
 const featuredProducts=async(req,res)=>{
     try {
-        const products=await Product.find({rating:{$gte:4}}).limit(20);
+        const products=await Product.find({rating:{$gte:4}}).limit(18);
         return res.status(200).json({message:'Featured products fetched successfully',products});
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({message:'Internal Server error try again'});
     }
-}
+};
+// backend/controllers/productController.js
 
-module.exports={getProducts,getProductById,createProduct,deleteProduct,updateProduct,featuredProducts}
+/**
+ * @desc    Get all products that are low in stock (Admin only)
+ * @route   GET /api/products/low-stock
+ * @access  Private/Admin
+ */
+const getLowStockProducts = async (req, res) => {
+    try {
+        const lowStockThreshold = 10; // Define what you consider "low stock"
+        const products = await Product.find({ countInStock: { $lte: lowStockThreshold } })
+                                      .sort({ countInStock: 1 }); // Show out of stock items first
+        
+        res.status(200).json({ products });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ message: 'Server error while fetching low stock products.' });
+    }
+};
+
+
+module.exports={getProducts,getProductById,createProduct,deleteProduct,updateProduct,featuredProducts,getLowStockProducts}

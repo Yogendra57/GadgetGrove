@@ -4,7 +4,7 @@ const path = require('path');
 const User = require('../models/User');
 const getProfile = async (req, res) => {
     try {
-      console.log("Attempting to fetch profile in controller...");
+      
         const profile = await Profile.findOne({ user: req.user._id }).populate('user', 'name email');
         if (!profile) {
             return res.status(404).json({ message: 'Profile not found' });

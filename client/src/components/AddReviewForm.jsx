@@ -52,7 +52,7 @@ const AddReviewForm = ({ productId, onReviewSubmitted }) => {
     formData.append('rating', rating);
     formData.append('comment', comment);
     if (imageFile) {
-      formData.append('image', imageFile); // 'image' should match backend middleware field name
+      formData.append('image', imageFile); 
     }
 
     try {
@@ -65,13 +65,12 @@ const AddReviewForm = ({ productId, onReviewSubmitted }) => {
       });
       
       setSuccess("Review submitted successfully!");
-      toast.success("Review submitted successfully!");
-      onReviewSubmitted(res.data.review); // Pass new review back to parent component
+      onReviewSubmitted(res.data.review); 
       setRating(0);
       setComment("");
       setImageFile(null);
       if(res.data.message){
-        alert(res.data.message);
+        toast.success(res.data.message);
       }
     } catch (err) {
       setError(err.response?.data?.message || "Failed to submit review.");

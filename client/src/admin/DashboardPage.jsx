@@ -3,9 +3,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Spinner, Table, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import AdminSidebar from './AdminSideBar';
+import AdminSidebar from './AdminSidebar';
 import AdminBottomNavbar from './AdminBottomNavbar';
 import { FaDollarSign, FaShoppingCart, FaUsers, FaExclamationTriangle } from 'react-icons/fa';
 import "../stylesheets/ResponsiveNavbar.css"; 
@@ -63,6 +63,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -134,7 +135,7 @@ export default function DashboardPage() {
                     animationDelay="0.2s"
                   />
                 </Col>
-                <Col xl={3} md={6} className="mb-4">
+                <Col xl={3} md={6} className="mb-4" onClick={() => navigate('/admin/low-stock') } style={{cursor: 'pointer'}}>
                   <StatCard 
                     title="Low Stock Items" 
                     value={stats ? stats.lowStockCount : 'N/A'}

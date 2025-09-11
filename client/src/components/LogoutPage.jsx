@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { FaCheckCircle } from 'react-icons/fa'; // Using a clean icon
+import { FaCheckCircle } from 'react-icons/fa'; 
 
 export default function LogoutPage() {
   const [countdown, setCountdown] = useState(5);

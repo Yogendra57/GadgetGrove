@@ -5,21 +5,21 @@ import { Container, Row, Col, Card, Form, Button, FloatingLabel, Alert } from "r
 import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
-import "../stylesheets/LoginModern.css"; // We'll create this new CSS file
+import "../stylesheets/LoginModern.css"; 
 import { useDispatch } from "react-redux";
 import { setLogin } from "../redux/authSlice";
-import { toast } from 'react-toastify'; // Import toast function
+import { toast } from 'react-toastify'; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // State for login errors
+  const [error, setError] = useState(""); 
   const navigate = useNavigate();
   const dispatch=useDispatch()
 
   const loginUser = async (e) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError(""); 
 
     try {
       const res = await api.post("/auth/login", { email, password });

@@ -8,7 +8,7 @@ import LeftSidebar from "../components/LeftSidebar";
 import BottomNavbar from "../components/BottomNavbar";
 import { FaEye, FaBox } from "react-icons/fa";
 import "../stylesheets/ResponsiveNavbar.css";
-import "../stylesheets/OrderHistoryPage.css"; // New CSS file
+import "../stylesheets/OrderHistoryPage.css"; 
 import { toast } from "react-toastify";
 
 const BACKEND_URL=import.meta.env.VITE_BACKEND_URL
