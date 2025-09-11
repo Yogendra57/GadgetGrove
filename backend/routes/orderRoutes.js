@@ -18,12 +18,12 @@
 
 const express=require('express');
 const { verifyToken } = require('../config/jwt');
-const {getOrderById,getMyOrders,getAllOrders,updateOrderToDelivered} = require('../controllers/orderController');
+const {getOrderById,getMyOrders,getAllOrders,updateOrderToDelivered,downloadInvoice} = require('../controllers/orderController');
 const {isAdmin} = require('../middleware/authMiddleware');
 const router=express.Router();
 router.get('/myorders',verifyToken,getMyOrders);
 router.get('/:id',verifyToken,getOrderById);
 router.get('/admin/all', verifyToken, isAdmin, getAllOrders);
 router.put('/:id/deliver', verifyToken, isAdmin, updateOrderToDelivered);
-
+router.get('/:id/invoice', verifyToken, downloadInvoice);
 module.exports=router;

@@ -1,17 +1,19 @@
+
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button, ListGroup, Image, Alert, Spinner, Badge } from "react-bootstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import LeftSidebar from "../components/LeftSidebar";
 import BottomNavbar from "../components/BottomNavbar";
-import { FaUser, FaPhone, FaCreditCard, FaArrowLeft } from "react-icons/fa";
-import "../stylesheets/OrderDetailsPage.css"; // Make sure this CSS file exists
-import "../stylesheets/ResponsiveNavbar.css"; // Make sure this CSS file exists
+import { FaUser, FaPhone, FaCreditCard, FaArrowLeft, FaFilePdf } from "react-icons/fa"; // Import FaFilePdf
+import "../stylesheets/OrderDetailsPage.css";
+import "../stylesheets/ResponsiveNavbar.css";
 import { toast } from "react-toastify";
 
 // --- Skeleton Loader Component ---
 const OrderDetailsSkeleton = () => (
-  <Row>
+    // ... skeleton JSX ...
+      <Row>
     <Col lg={8}>
       <Card className="mb-3 skeleton-card">
         <Card.Header style={{ height: '50px' }}></Card.Header>
@@ -32,7 +34,7 @@ const OrderDetailsSkeleton = () => (
 
 // --- Main Page Component ---
 export default function OrderDetailsPage() {
-  const BACKEND_URL=import.meta.env.VITE_BACKEND_URL
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
   const { id: orderId } = useParams();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
@@ -59,10 +61,40 @@ export default function OrderDetailsPage() {
       fetchOrderDetails();
     } else {
       setError("No order ID provided or user not authenticated.");
-      toast.error("No order ID provided or user not authenticated.");
-      setLoading(false); // Stop loading if no token or ID
+      setLoading(false);
     }
   }, [orderId, token]);
+  
+  // --- NEW: Function to handle authenticated file download ---
+  const handleDownloadInvoice = async () => {
+    try {
+      toast.info("Generating your invoice...");
+      const res = await api.get(`/orders/${orderId}/invoice`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob', // Important: tells Axios to expect a file blob
+      });
+
+      // Create a URL from the file blob
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      
+      // Create a temporary link to trigger the download
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `invoice-${orderId}.pdf`); // Set the filename
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up by removing the link and revoking the URL
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error("Failed to download invoice:", error);
+      toast.error("Failed to download invoice.");
+    }
+  };
 
   const renderContent = () => {
     if (loading) return <OrderDetailsSkeleton />;
@@ -81,7 +113,7 @@ export default function OrderDetailsPage() {
                   <Row className="align-items-center">
                     <Col xs={3} md={2}>
                       <Image 
-                        src={`${BACKEND_URL}/${item.image}`} // Ensure full URL construction
+                        src={`${BACKEND_URL}/${item.image}`}
                         alt={item.name} 
                         fluid 
                         rounded 
@@ -110,7 +142,7 @@ export default function OrderDetailsPage() {
 
         {/* Right Column: Shipping and Payment Details */}
         <Col lg={4}>
-          <Card className="shadow-sm mb-4 sticky-top" style={{ top: '2rem' }}>
+          <Card className="shadow-sm mb-4">
             <Card.Header as="h5">Shipping Address</Card.Header>
             <Card.Body>
               <div className="mb-2"><FaUser className="me-2 text-muted" /> {order.shippingAddress.name}</div>
@@ -124,44 +156,53 @@ export default function OrderDetailsPage() {
               </Alert>
             </Card.Body>
           </Card>
-
-          <Card className="shadow-sm mb-4 sticky-top" style={{ top: 'calc(2rem + height_of_first_card + 1rem)' }}>
-            <Card.Header as="h5">Payment Details</Card.Header>
-            <ListGroup variant="flush">
-              <ListGroup.Item className="d-flex justify-content-between px-3 py-2 small">
+<Card className="shadow-sm mb-4">
+        <Card.Header as="h5">Payment Details</Card.Header>
+        <ListGroup variant="flush">
+            {/* --- ADD THIS PRICE BREAKDOWN LOGIC --- */}
+            <ListGroup.Item className="d-flex justify-content-between px-3 py-2 small">
                 <span>Items Price:</span>
                 <span>₹{order.itemsPrice.toFixed(2)}</span>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between px-3 py-2 small text-muted">
+            </ListGroup.Item>
+            <ListGroup.Item className="d-flex justify-content-between px-3 py-2 small text-muted">
                 <span>Shipping:</span>
                 <span>₹{order.shippingPrice.toFixed(2)}</span>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between px-3 py-2 small text-muted">
+            </ListGroup.Item>
+            <ListGroup.Item className="d-flex justify-content-between px-3 py-2 small text-muted">
                 <span>Tax:</span>
                 <span>₹{order.taxPrice.toFixed(2)}</span>
-              </ListGroup.Item>
-              <ListGroup.Item className="d-flex justify-content-between px-3 py-2 fw-bold h6 mb-0">
+            </ListGroup.Item>
+            <ListGroup.Item className="d-flex justify-content-between px-3 py-2 fw-bold h6 mb-0">
                 <span>Total Paid:</span>
                 <span>₹{order.totalPrice.toFixed(2)}</span>
-              </ListGroup.Item>
-              
-              <ListGroup.Item className="px-3 py-2">
+            </ListGroup.Item>
+            <ListGroup.Item className="px-3 py-2">
                 <div className="d-flex justify-content-between align-items-center mb-1 small">
-                  <span>Payment Status:</span>
-                  {order.isPaid ? (
-                    <Badge bg="success" pill>Paid</Badge>
-                  ) : (
-                    <Badge bg="danger" pill>Pending</Badge>
-                  )}
+                    <span>Payment Status:</span>
+                    {order.isPaid ? (
+                        <Badge bg="success" pill>Paid</Badge>
+                    ) : (
+                        <Badge bg="danger" pill>Pending</Badge>
+                    )}
                 </div>
                 {order.isPaid && order.paymentResult?.id && (
-                  <div className="text-muted small mt-2">
-                    <strong>Transaction ID:</strong> {order.paymentResult.id}
-                  </div>
+                    <div className="text-muted small mt-2">
+                        <strong>Transaction ID:</strong> {order.paymentResult.id}
+                    </div>
                 )}
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
+            </ListGroup.Item>
+            {/* --- END SECTION --- */}
+        </ListGroup>
+    </Card>
+          {/* --- ADDED DOWNLOAD BUTTON --- */}
+          <div className="d-grid">
+            <Button 
+                variant="outline-secondary" 
+                onClick={handleDownloadInvoice}
+            >
+                <FaFilePdf className="me-2" /> Download Invoice
+            </Button>
+          </div>
         </Col>
       </Row>
     );

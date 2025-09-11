@@ -1,6 +1,8 @@
 const Address = require('../models/Address');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
+const puppeteer = require('puppeteer');
+const generateInvoiceHTML = require('../utils/invoiceTemplate');
 
 const getOrderById = async (req, res) => {
     try {
@@ -78,4 +80,38 @@ const updateOrderToDelivered = async (req, res) => {
         res.status(500).json({ message: 'Server error while updating order status.' });
     }
 };
-module.exports = { getOrderById ,getMyOrders,getAllOrders,updateOrderToDelivered};
+const downloadInvoice = async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id).populate('user', 'name email');
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        // Authorization check (optional but recommended)
+        if (order.user._id.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+        const logoUrl = `${process.env.BACKEND_URL}/uploads/logo2.png`;
+        // Populate the HTML template with order data
+        let htmlContent = generateInvoiceHTML(order);
+        // Replace logo placeholder with a public URL from your .env
+        htmlContent = htmlContent.replace('[Logo URL]', logoUrl);
+
+        const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+        const page = await browser.newPage();
+        
+        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+        const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+
+        await browser.close();
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=invoice-${order._id}.pdf`);
+        res.send(pdfBuffer);
+
+    } catch (error) {
+        console.error("Error generating invoice:", error);
+        res.status(500).json({ message: 'Server error while generating invoice.' });
+    }
+};
+module.exports = { getOrderById ,getMyOrders,getAllOrders,updateOrderToDelivered,downloadInvoice};
