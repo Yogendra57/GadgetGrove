@@ -18,7 +18,7 @@ const generateInvoiceHTML = (order) => {
         <title>Invoice - ${order._id}</title>
         <style>
             body { font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif; color: #555; }
-            .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, .15); font-size: 16px; line-height: 24px; }
+            .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, .15); font-size: 10px; line-height: 12px; }
             .invoice-box table { width: 100%; line-height: inherit; text-align: left; border-collapse: collapse; }
             .invoice-box table td { padding: 5px; vertical-align: top; }
             .invoice-box table tr.top table td.title { font-size: 20px; line-height: 30px; color: #333; font-weight: bold; }
