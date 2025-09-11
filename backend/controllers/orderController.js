@@ -97,7 +97,9 @@ const downloadInvoice = async (req, res) => {
         // Replace logo placeholder with a public URL from your .env
         htmlContent = htmlContent.replace('[Logo URL]', logoUrl);
 
-        const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+        const browser = await puppeteer.launch({ 
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'] });
         const page = await browser.newPage();
         
         await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
