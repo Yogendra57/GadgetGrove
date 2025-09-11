@@ -2,6 +2,7 @@ const Address = require('../models/Address');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const puppeteer = require('puppeteer-core');
+const chromium = require('chrome-aws-lambda');
 const generateInvoiceHTML = require('../utils/invoiceTemplate');
 
 const getOrderById = async (req, res) => {
