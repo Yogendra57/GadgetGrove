@@ -1,8 +1,7 @@
 const Address = require('../models/Address');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-const puppeteer = require('puppeteer-core');
-const chromium = require('chrome-aws-lambda');
+const pdf = require('html-pdf');
 const generateInvoiceHTML = require('../utils/invoiceTemplate');
 
 const getOrderById = async (req, res) => {
@@ -97,22 +96,26 @@ const downloadInvoice = async (req, res) => {
         let htmlContent = generateInvoiceHTML(order);
         // Replace logo placeholder with a public URL from your .env
         htmlContent = htmlContent.replace('[Logo URL]', logoUrl);
-
-                const browser = await puppeteer.launch({
-            args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath,
-            headless: chromium.headless,
-        });
+const options = {
+            format: 'A4',
+            border: {
+                top: '0.5in',
+                right: '0.5in',
+                bottom: '0.5in',
+                left: '0.5in'
+            }
+        };
         
-        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-        const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+         pdf.create(htmlContent, options).toBuffer((err, buffer) => {
+            if (err) {
+                console.error("Error generating PDF:", err);
+                return res.status(500).json({ message: 'Error generating PDF.' });
+            }
 
-        await browser.close();
-
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=invoice-${order._id}.pdf`);
-        res.send(pdfBuffer);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=invoice-${order._id}.pdf`);
+            res.send(buffer);
+        });
 
     } catch (error) {
         console.error("Error generating invoice:", error);
