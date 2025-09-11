@@ -1,7 +1,7 @@
 const Address = require('../models/Address');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const generateInvoiceHTML = require('../utils/invoiceTemplate');
 
 const getOrderById = async (req, res) => {
@@ -97,10 +97,12 @@ const downloadInvoice = async (req, res) => {
         // Replace logo placeholder with a public URL from your .env
         htmlContent = htmlContent.replace('[Logo URL]', logoUrl);
 
-        const browser = await puppeteer.launch({ 
-            
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-        const page = await browser.newPage();
+                const browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+        });
         
         await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
         const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
